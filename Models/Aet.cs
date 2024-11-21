@@ -7,7 +7,7 @@ public class Aet
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid id;
+    public Guid id{get;set;}
     public DateOnly Date {get;set;}
     public required Vehicle Vehicle {get;set;}
     public required String VehicleId {get;set;}

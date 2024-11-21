@@ -1,0 +1,30 @@
+@model Rumo.Models.Verser
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Verser</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Aet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Aet.id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vehicle)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vehicle.Plate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

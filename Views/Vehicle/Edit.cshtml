@@ -1,0 +1,66 @@
+@model Rumo.Models.Vehicle
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Vehicle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Plate" />
+            <div class="form-group">
+                <label asp-for="Renavam" class="control-label"></label>
+                <input asp-for="Renavam" class="form-control" />
+                <span asp-validation-for="Renavam" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Chassis" class="control-label"></label>
+                <input asp-for="Chassis" class="form-control" />
+                <span asp-validation-for="Chassis" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Exercice" class="control-label"></label>
+                <input asp-for="Exercice" class="form-control" />
+                <span asp-validation-for="Exercice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mark" class="control-label"></label>
+                <input asp-for="Mark" class="form-control" />
+                <span asp-validation-for="Mark" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Version" class="control-label"></label>
+                <input asp-for="Version" class="form-control" />
+                <span asp-validation-for="Version" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DuoDate" class="control-label"></label>
+                <input asp-for="DuoDate" class="form-control" />
+                <span asp-validation-for="DuoDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Situation" class="control-label"></label>
+                <input asp-for="Situation" class="form-control" />
+                <span asp-validation-for="Situation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

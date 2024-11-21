@@ -1,0 +1,77 @@
+@model IEnumerable<Rumo.Models.Vehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Renavam)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Chassis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Exercice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mark)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Version)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DuoDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Situation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Renavam)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Chassis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Exercice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mark)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Version)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DuoDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Situation)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Plate">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Plate">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Plate">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
