@@ -56,13 +56,10 @@ namespace Rumo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Plate,Renavam,Chassis,Exercice,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
         {
-            if (ModelState.IsValid)
-            {
+            
                 _context.Add(vehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(vehicle);
         }
 
         // GET: Vehicle/Edit/5
@@ -93,8 +90,7 @@ namespace Rumo.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
                     _context.Update(vehicle);
@@ -112,8 +108,7 @@ namespace Rumo.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(vehicle);
+
         }
 
         // GET: Vehicle/Delete/5

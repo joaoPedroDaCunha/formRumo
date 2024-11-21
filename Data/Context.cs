@@ -3,7 +3,7 @@ using Rumo.Models;
 
 namespace Rumo.Data;
 
-public class Context : DbContext
+public class Context(DbContextOptions<Context> options) : DbContext
 {
     public DbSet<Vehicle> Vehicles {get;set;}
     public DbSet<Aet> Aets {get;set;}

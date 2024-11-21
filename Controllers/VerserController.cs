@@ -49,8 +49,8 @@ namespace Rumo.Controllers
         // GET: Verser/Create
         public IActionResult Create()
         {
-            ViewData["AetId"] = new SelectList(_context.Aets, "id", "id");
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Plate", "Plate");
+            ViewData["AetId"] = new SelectList(_context.Aets.OrderBy(a => a.VehicleId), "VehicleId", "VehicleId");
+            ViewData["VehicleId"] = new SelectList(_context.Vehicles.OrderBy(v => v.Plate), "Plate", "Plate");
             return View();
         }
 

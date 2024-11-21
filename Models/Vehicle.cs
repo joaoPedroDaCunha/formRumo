@@ -5,11 +5,9 @@ namespace Rumo.Models;
 public class Vehicle
 {
     [Key]
-    [Length(7,7)]
     public required String Plate {get;set;}
     public required String Renavam {get;set;}
     public required String Chassis {get;set;} 
-    [Length(4,4)]
     public int Exercice {get;set;}
     public required String Mark {get;set;}
     public required String Version {get;set;}
