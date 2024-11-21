@@ -22,7 +22,7 @@ namespace Rumo.Controllers
         // GET: Vehicle
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicles.ToListAsync());
+            return View(await _context.Vehicles.OrderBy(v => v.Plate).ToListAsync());
         }
 
         // GET: Vehicle/Details/5
