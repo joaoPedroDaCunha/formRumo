@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -41,7 +42,8 @@ namespace Rumo.Controllers
             {
                 return NotFound();
             }
-
+            var versers = _context.Versers.Where(a => a.AetId.Equals(id)).Include(a => a.Vehicle).ToList();
+            ViewData["Versers"] = versers.ToList();
             return View(aet);
         }
 
@@ -80,7 +82,9 @@ namespace Rumo.Controllers
             {
                 return NotFound();
             }
+            var versers = _context.Versers.Where(a => a.AetId.Equals(id)).ToList();
             ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Plate", "Plate", aet.VehicleId);
+            ViewData["Versers"] = versers.ToList();
             return View(aet);
         }
 

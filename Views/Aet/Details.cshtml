@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    var versersList = ViewData["Versers"] as List<Verser>;
 }
 
 <h1>Details</h1>
@@ -28,3 +29,38 @@
     <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+<p>Veiculos no verso</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(versersList => versersList.Vehicle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(versersList => versersList.Vehicle.DuoDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@if (versersList != null) { 
+@foreach (var item in versersList) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehicle.Plate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vehicle.DuoDate)
+            </td>
+            <td>
+                <a asp-controller="Verser" asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-controller="Verser" asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-controller="Verser" asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+    }
+}
+    </tbody>
+</table>

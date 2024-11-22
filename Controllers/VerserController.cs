@@ -49,7 +49,7 @@ namespace Rumo.Controllers
         // GET: Verser/Create
         public IActionResult Create()
         {
-            ViewData["AetId"] = new SelectList(_context.Aets.OrderBy(a => a.VehicleId), "VehicleId", "VehicleId");
+            ViewData["AetId"] = new SelectList(_context.Aets.OrderBy(a => a.id), "id", "id");
             ViewData["VehicleId"] = new SelectList(_context.Vehicles.OrderBy(v => v.Plate), "Plate", "Plate");
             return View();
         }
@@ -61,16 +61,12 @@ namespace Rumo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,AetId,VehicleId")] Verser verser)
         {
-            if (ModelState.IsValid)
-            {
+           
                 verser.id = Guid.NewGuid();
                 _context.Add(verser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["AetId"] = new SelectList(_context.Aets, "id", "id", verser.AetId);
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Plate", "Plate", verser.VehicleId);
-            return View(verser);
+           
         }
 
         // GET: Verser/Edit/5
