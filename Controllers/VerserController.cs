@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Rumo.Data;
 using Rumo.Models;
@@ -47,17 +48,23 @@ namespace Rumo.Controllers
         }
 
         // GET: Verser/Create
-        public IActionResult Create()
+
+        [HttpGet("create/{id:Guid}")]
+        public IActionResult Create(Guid? id)
         {
+            Verser verser = new()
+            {
+                AetId = (Guid)id
+            };
             ViewData["AetId"] = new SelectList(_context.Aets.OrderBy(a => a.id), "id", "id");
             ViewData["VehicleId"] = new SelectList(_context.Vehicles.OrderBy(v => v.Plate), "Plate", "Plate");
-            return View();
+            return View(verser);
         }
 
         // POST: Verser/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost("create/{id:Guid}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,AetId,VehicleId")] Verser verser)
         {
@@ -65,7 +72,7 @@ namespace Rumo.Controllers
                 verser.id = Guid.NewGuid();
                 _context.Add(verser);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details","Aet",new {id = verser.AetId});
            
         }
 
@@ -150,13 +157,14 @@ namespace Rumo.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var verser = await _context.Versers.FindAsync(id);
+            var aetid = verser.AetId;
             if (verser != null)
             {
                 _context.Versers.Remove(verser);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details","Aet",new {id = aetid});
         }
 
         private bool VerserExists(Guid id)

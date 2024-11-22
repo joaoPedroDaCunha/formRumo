@@ -27,10 +27,12 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to List</a> |
+    <a asp-controller="Verser" asp-action="Create" asp-route-id="@Model?.id">Adicionar um Veiculo no verso</a>
 </div>
 
-<p>Veiculos no verso</p>
+<br>
+<p><Strong>Veiculos no verso</Strong></p>
 
 <table class="table">
     <thead>
