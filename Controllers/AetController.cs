@@ -59,7 +59,7 @@ namespace Rumo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Date,VehicleId")] Aet aet)
+        public async Task<IActionResult> Create([Bind("id,Date,VehicleId,Sigla")] Aet aet)
         {
             
                 aet.id = Guid.NewGuid();
@@ -93,7 +93,7 @@ namespace Rumo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("id,Date,VehicleId")] Aet aet)
+        public async Task<IActionResult> Edit(Guid id, [Bind("id,Date,VehicleId,Sigla")] Aet aet)
         {
             if (id != aet.id)
             {

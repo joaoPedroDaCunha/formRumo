@@ -8,8 +8,8 @@ public class Verser
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid id{get;set;} = Guid.NewGuid();
-    public Aet Aet { get; set; }
+    public Aet? Aet { get; set; }
     public Guid AetId{get;set;}
-    public  Vehicle Vehicle {get;set;}
-    public String VehicleId {get;set;}
+    public  Vehicle? Vehicle {get;set;}
+    public String? VehicleId {get;set;}
 }

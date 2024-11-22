@@ -135,9 +135,13 @@ namespace Rumo.Controllers
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var vehicle = await _context.Vehicles.FindAsync(id);
+            var aet = await _context.Aets.Where(a => a.VehicleId.Equals(id)).ToListAsync();
             if (vehicle != null)
             {
                 _context.Vehicles.Remove(vehicle);
+                if(aet != null){
+                    
+                }
             }
 
             await _context.SaveChangesAsync();

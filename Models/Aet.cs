@@ -9,7 +9,8 @@ public class Aet
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid id{get;set;}
     public DateOnly Date {get;set;}
+    public String? Sigla {get;set;} = null;
     public required Vehicle Vehicle {get;set;}
     public required String VehicleId {get;set;}
-    public ICollection<Verser> Versers {get;set;}
+    public ICollection<Verser>? Versers {get;set;}
 }
