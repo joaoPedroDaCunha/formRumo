@@ -112,9 +112,9 @@
                 @Html.DisplayFor(modelItem => item.Situation)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Plate">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Plate">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Plate">Delete</a>
+                <a style="text-decoration: none; color: inherit;" asp-action="Edit" asp-route-id="@item.Plate"><button class="btn btn-secondary">Edit</button></a> |
+                <a style="text-decoration: none; color: inherit;" asp-action="Details" asp-route-id="@item.Plate"><button class="btn btn-secondary">Details</button></a> |
+                <a style="text-decoration: none; color: inherit;" asp-action="Delete" asp-route-id="@item.Plate"><button class="btn btn-secondary">Delete</button></a>
             </td>
         </tr>
 }
