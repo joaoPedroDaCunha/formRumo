@@ -4,16 +4,39 @@
     ViewData["Title"] = "Aet";
 }
 
-<h1>@ViewData["Title"]</h1>
+<a href="/Aet/Index" style="text-decoration: none; color: inherit;"><h1>@ViewData["Title"]</h1></a>
 
-<div justify="items-start" flex="row" style="gap: 5px; display:flex">
-    <button type="button" asp-action="Create" class="btn btn-secondary">Novo Veiculo</button>
-    <div justify="items-end" flex="row" style="gap: 5px; display:flex">
-        <form id="vehicleForm" method="get" style="display: flex; flex-direction: row; gap: 5px; d-flex">
-            <label for="plate" class="control-label"></label>
-            <input id="plate" name="plate" class="form-control" />
-            <button type="submit" class="btn btn-outline-success ">Detalhes</button>
-        </form>
+<div style="gap: 5px; display: flex; flex-wrap: wrap;">
+    <div justify="items-start" flex="row" style="gap: 5px; display:flex">
+        <a asp-action="Create"><button type="button" asp-action="Create" class="btn btn-secondary">Nova Aet</button></a>
+        <div justify="items-end" flex="row" style="gap: 5px; display:flex">
+            <form id="vehicleForm" method="get" style="display: flex; flex-direction: row; gap: 5px; d-flex">
+                <label for="plate" class="control-label"></label>
+                <input id="plate" name="plate" class="form-control" placeholder="Placa"/>
+                <button type="submit" class="btn btn-outline-success ">Aets</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div class="dropdown">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+            Mensal
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Janeiro">Janeiro</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Fevereiro">Fevereiro</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Março">Março</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Abril">Abril</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Maio">Maio</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Junho">Junho</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Julho">Julho</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Agosto">Agosto</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Setembro">Setembro</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Outubro">Outubro</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Novembro">Novembro</a></li>
+            <li><a class="dropdown-item" asp-action="Index" asp-route-id="Dezembro">Dezembro</a></li>
+        </ul>
     </div>
 </div>
 
@@ -27,7 +50,7 @@
             return;
         }
         plateInput.value = plateValue.toUpperCase();
-        this.action = '/Aet/Details/' + plateInput.value;
+        this.action = '/Aet/Index/' + plateInput.value;
     }
 </script>
 <table class="table">

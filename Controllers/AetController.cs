@@ -28,6 +28,42 @@ namespace Rumo.Controllers
             return View(await context.ToListAsync());
         }
 
+        [HttpGet]
+        [Route("Aet/Index/{id}")]
+        public async Task<IActionResult> Index(String id)
+        {
+            switch (id)
+            {
+                case "Janeiro":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 1).ToListAsync());
+                case "Fevereiro":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 2).ToListAsync());
+                case "Março":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 3).ToListAsync());
+                case "Abril":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 4).ToListAsync());
+                case "Maio":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 5).ToListAsync());
+                case "Junho":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 6).ToListAsync());
+                case "Julho":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 7).ToListAsync());
+                case "Agosto":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 8).ToListAsync());
+                case "Setembro":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 9).ToListAsync());
+                case "Outubro":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 10).ToListAsync());
+                case "Novembro":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 11).ToListAsync());
+                case "Dezembro":
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 12).ToListAsync());
+                default:
+                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Vehicle.Plate.Equals(id)).ToArrayAsync());
+            }
+        }
+
+
         // GET: Aet/Details/5
         [HttpGet("Details/{id:guid}")]
         public async Task<IActionResult> Details(Guid? id)
@@ -48,27 +84,6 @@ namespace Rumo.Controllers
             ViewData["Versers"] = versers.ToList();
             return View(aet);
         }
-
-        [HttpGet("Details/{id}")]
-        public async Task<IActionResult> Details(String id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var aet = await _context.Aets
-                .Include(a => a.Vehicle)
-                .FirstOrDefaultAsync(m => m.VehicleId == id);
-            if (aet == null)
-            {
-                return NotFound();
-            }
-            var versers = _context.Versers.Where(a => a.AetId.Equals(id)).Include(a => a.Vehicle).ToList();
-            ViewData["Versers"] = versers.ToList();
-            return View(aet);
-        }
-
 
         // GET: Aet/Create
         public IActionResult Create()
