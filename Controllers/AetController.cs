@@ -21,6 +21,7 @@ namespace Rumo.Controllers
         }
 
         // GET: Aet
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var context = _context.Aets.Include(a => a.Vehicle).Include(a =>a.Versers);
