@@ -63,9 +63,9 @@
                 @Html.DisplayFor(modelItem => item.Vehicle.DuoDate)
             </td>
             <td>
-                <a style="text-decoration: none; color: inherit;" asp-action="Edit" asp-route-id="@item.id"><button class="btn btn-secondary">Edit</button></a> |
-                <a style="text-decoration: none; color: inherit;" asp-action="Details" asp-route-id="@item.id"><button class="btn btn-secondary">Details</button></a> |
-                <a style="text-decoration: none; color: inherit;" asp-action="Delete" asp-route-id="@item.id"><button class="btn btn-secondary">Delete</button></a>
+                <a style="text-decoration: none; color: inherit;" asp-controller="Verser" asp-action="Edit" asp-route-id="@item.id"><button class="btn btn-secondary">Edit</button></a> |
+                <a style="text-decoration: none; color: inherit;" asp-controller="Verser" asp-action="Details" asp-route-id="@item.id"><button class="btn btn-secondary">Details</button></a> |
+                <a style="text-decoration: none; color: inherit;" asp-controller="Verser" asp-action="Delete" asp-route-id="@item.id"><button class="btn btn-secondary">Delete</button></a>
             </td>
         </tr>
     }

@@ -7,7 +7,7 @@
 <h1>Delete</h1>
 
 <h3>Tem certeza de que deseja excluir isso?</h3>
-<div>
+<div style="display: flex; flex-direction: column; gap: 5px;">
     <h4>Vehicle</h4>
     <hr />
     <dl class="row">
@@ -69,7 +69,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Plate" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index"><button class="btn btn-secondary">Back</button></a>
+        <input type="submit" value="Delete" class="btn btn-danger" /> 
     </form>
+    <a asp-action="Index"><button class="btn btn-secondary">Back</button></a>
 </div>

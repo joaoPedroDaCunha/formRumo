@@ -88,7 +88,7 @@ namespace Rumo.Controllers
         // GET: Aet/Create
         public IActionResult Create()
         {
-            ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Plate", "Plate").OrderBy(v => v.Value);
+            ViewData["VehicleId"] = new SelectList(_context.Vehicles.OrderBy(a => a.Plate).Where(a => a.Type.Contains("TRATOR")), "Plate", "Plate");
             return View();
         }
 

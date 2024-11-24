@@ -9,12 +9,11 @@
 <h4>Verser</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
+    <div class="col-md-4" style="display: flex; flex-direction: column; gap: 5px;">
+        <form asp-action="Create" style="display: flex; flex-direction: column; gap: 5px;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="AetId" class="control-label"></label>
-                <input asp-for="AetId" class="form-control" />
+                <input type="hidden" asp-for="AetId" class="form-control" />
                 <span asp-validation-for="AetId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,10 +24,9 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-controller="Aet" asp-action="Details" asp-route-id="@Model?.AetId"><button class="btn btn-secondary">Back</button></a>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-controller="Aet" asp-action="Details" asp-route-id="@Model?.AetId">Back</a>
 </div>
 
