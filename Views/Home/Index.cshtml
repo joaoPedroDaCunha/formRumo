@@ -1,8 +1,110 @@
-﻿@{
+﻿@model dynamic;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    <!-- Gráfico de Veículos -->
+    <div class="col-md-6">
+        <h3>Gráfico de Veículos</h3>
+        <canvas id="vehicleChart" width="400" height="400"></canvas>
+        <p>Total de Veículos: @Model.VehicleCount</p>
+    </div>
+
+    <!-- Gráfico de Aets -->
+    <div class="col-md-6">
+        <h3>Gráfico de Aets</h3>
+        <canvas id="aetChart" width="400" height="400"></canvas>
+        <p>Total de Aets: @Model.AetCount</p>
+    </div>
 </div>
+
+<!-- Carregar a biblioteca Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Verifique os dados no console
+    console.log(@Model.VehicleCount);
+    console.log(@Model.VehicleUpDate);
+    console.log(@Model.VehicleDownDate);
+    console.log(@Model.AetCount);
+    console.log(@Model.AetUpDate);
+    console.log(@Model.AetDownDate);
+
+    // Gráfico de Veículos (Formato Pizza)
+    var vehicleData = {
+        labels: ['Veículos Não Vencidos', 'Veículos Vencidos'],
+        datasets: [{
+            label: 'Veículos',
+            data: [
+                @Model.VehicleUpDate, // Veículos que não venceram
+                @Model.VehicleDownDate // Veículos que venceram
+            ],
+            backgroundColor: ['rgba(54, 162, 235, 0.5)', 'rgba(255, 99, 132, 0.5)'],
+            borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+            borderWidth: 1
+        }]
+    };
+
+    // Inicializando o gráfico de veículos (pizza)
+    window.onload = function() {
+        var vehicleCtx = document.getElementById('vehicleChart').getContext('2d');
+        var vehicleChart = new Chart(vehicleCtx, {
+            type: 'pie', // Tipo de gráfico (Pizza)
+            data: vehicleData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico de Aets (Formato Pizza)
+        var aetData = {
+            labels: ['Aets Não Vencidos', 'Aets Vencidos'],
+            datasets: [{
+                label: 'Aets',
+                data: [
+                    @Model.AetUpDate, // Aets que não venceram
+                    @Model.AetDownDate // Aets que venceram
+                ],
+                backgroundColor: ['rgba(153, 102, 255, 0.5)', 'rgba(255, 159, 64, 0.5)'],
+                borderColor: ['rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                borderWidth: 1
+            }]
+        };
+
+        // Inicializando o gráfico de Aets (pizza)
+        var aetCtx = document.getElementById('aetChart').getContext('2d');
+        var aetChart = new Chart(aetCtx, {
+            type: 'pie', // Tipo de gráfico (Pizza)
+            data: aetData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    };
+</script>
