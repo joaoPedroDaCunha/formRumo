@@ -1,11 +1,18 @@
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Rumo.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<Context>(o =>
 o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddMemoryCache();
+
+var cacheEntryOptions = new MemoryCacheEntryOptions()
+    .SetSlidingExpiration(TimeSpan.FromMinutes(5))  
+    .SetAbsoluteExpiration(TimeSpan.FromHours(1));  
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
