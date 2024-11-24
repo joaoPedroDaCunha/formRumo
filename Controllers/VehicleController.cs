@@ -26,6 +26,8 @@ namespace Rumo.Controllers
         }
 
         // GET: Vehicle/Details/5
+        [HttpGet]
+        [Route("Vehicle/Details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -65,7 +67,7 @@ namespace Rumo.Controllers
             return View(vehicle);
 
         }
-
+        
         // GET: Vehicle/Edit/5
         public async Task<IActionResult> Edit(string id)
         {

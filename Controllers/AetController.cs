@@ -28,6 +28,7 @@ namespace Rumo.Controllers
         }
 
         // GET: Aet/Details/5
+        [HttpGet("Details/{id:guid}")]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -46,6 +47,27 @@ namespace Rumo.Controllers
             ViewData["Versers"] = versers.ToList();
             return View(aet);
         }
+
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(String id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var aet = await _context.Aets
+                .Include(a => a.Vehicle)
+                .FirstOrDefaultAsync(m => m.VehicleId == id);
+            if (aet == null)
+            {
+                return NotFound();
+            }
+            var versers = _context.Versers.Where(a => a.AetId.Equals(id)).Include(a => a.Vehicle).ToList();
+            ViewData["Versers"] = versers.ToList();
+            return View(aet);
+        }
+
 
         // GET: Aet/Create
         public IActionResult Create()

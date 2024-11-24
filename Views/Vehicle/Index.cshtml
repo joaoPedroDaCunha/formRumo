@@ -1,14 +1,35 @@
 @model IEnumerable<Rumo.Models.Vehicle>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Veiculos";
 }
 
-<h1>Index</h1>
+<h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div justify="items-start" flex="row" style="gap: 5px; display:flex">
+    <button type="button" asp-action="Create" class="btn btn-secondary">Novo Veiculo</button>
+    <div justify="items-end" flex="row" style="gap: 5px; display:flex">
+        <form id="vehicleForm" method="get" style="display: flex; flex-direction: row; gap: 5px; d-flex">
+            <label for="plate" class="control-label"></label>
+            <input id="plate" name="plate" class="form-control" />
+            <button type="submit" class="btn btn-outline-success ">Detalhes</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('vehicleForm').onsubmit = function(event) {
+        var plateInput = document.getElementById('plate');
+        var plateValue = plateInput.value.trim();
+        if (plateValue === '') {
+            alert('Por favor, insira um valor para a placa.');
+            event.preventDefault();
+            return;
+        }
+        plateInput.value = plateValue.toUpperCase();
+        this.action = '/Vehicle/Details/' + plateInput.value;
+    }
+</script>
 <table class="table">
     <thead>
         <tr>
