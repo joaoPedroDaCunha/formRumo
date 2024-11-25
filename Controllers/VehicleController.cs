@@ -31,17 +31,17 @@ namespace Rumo.Controllers
         {
             switch (month){
                 case "Julho" :
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Type.Contains("REBOQUE") &&(v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync());
+                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync());
                 case "Agosto" :
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Type.Contains("REBOQUE") &&(v.Plate.EndsWith("3") || v.Plate.EndsWith("4"))).ToListAsync());
+                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("3") || v.Plate.EndsWith("4"))).ToListAsync());
                 case "Setembro" :
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Type.Contains("REBOQUE") &&(v.Plate.EndsWith("5") || v.Plate.EndsWith("6"))|| v.Type.Contains("TRATOR") &&(v.Plate.EndsWith("1")||v.Plate.EndsWith("2"))).ToListAsync());
+                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("5") || v.Plate.EndsWith("6"))|| v.Type.Contains("TRATOR") &&(v.Plate.EndsWith("1")||v.Plate.EndsWith("2"))).ToListAsync());
                 case "Outubro":
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Type.Contains("REBOQUE") &&(v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))|| v.Type.Contains("TRATOR") &&(v.Plate.EndsWith("3")||v.Plate.EndsWith("4") || v.Plate.EndsWith("5"))).ToListAsync());
+                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))|| v.Type.Contains("TRATOR") &&(v.Plate.EndsWith("3")||v.Plate.EndsWith("4") || v.Plate.EndsWith("5"))).ToListAsync());
                 case "Novembro":
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Type.Contains("REBOQUE") && v.Plate.EndsWith("9") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("6") || v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))).ToListAsync());
+                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("9") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("6") || v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))).ToListAsync());
                 case "Dezembro":
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Type.Contains("REBOQUE") && v.Plate.EndsWith("0") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("9") || v.Plate.EndsWith("8"))).ToListAsync());
+                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("0") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("9") || v.Plate.EndsWith("8"))).ToListAsync());
                 default :
                     return RedirectToAction(nameof(Index));
             }
@@ -78,7 +78,7 @@ namespace Rumo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Plate,Renavam,Chassis,Exercice,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("Plate,Renavam,Chassis,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
         {
             bool existe = await _context.Vehicles.AnyAsync(v => v.Plate == vehicle.Plate);
             if(!existe){
@@ -111,7 +111,7 @@ namespace Rumo.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Plate,Renavam,Chassis,Exercice,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(string id, [Bind("Plate,Renavam,Chassis,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
         {
             if (id != vehicle.Plate)
             {

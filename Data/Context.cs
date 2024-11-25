@@ -11,7 +11,7 @@ public class Context(DbContextOptions<Context> options) : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        base.OnConfiguring(optionsBuilder.UseNpgsql("Host=192.168.1.115:5432;Database=novorumo;Username=postgres;Password=102030"));
+        base.OnConfiguring(optionsBuilder.UseNpgsql("Host=localhost:5432;Database=novorumo;Username=postgres;Password=102030"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

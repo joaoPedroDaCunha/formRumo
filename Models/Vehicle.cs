@@ -13,7 +13,6 @@ public class Vehicle
     public required String Renavam {get;set;}
     [Uppercase]
     public required String Chassis {get;set;} 
-    public int Exercice {get;set;}
     [Uppercase]
     public required String Mark {get;set;}
     [Uppercase]

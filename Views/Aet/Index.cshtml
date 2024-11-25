@@ -57,10 +57,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => model.Vehicle)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Vehicle)
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th></th>
         </tr>
@@ -69,10 +69,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => item.Vehicle.Plate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Vehicle.Plate)
+                @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
                 <a style="text-decoration: none; color: inherit;" asp-action="Edit" asp-route-id="@item.id"><button class="btn btn-secondary">Edit</button></a> |
