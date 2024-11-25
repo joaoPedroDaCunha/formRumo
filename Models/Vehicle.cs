@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Rumo.Validation;
 
 namespace Rumo.Models;
@@ -10,8 +11,11 @@ public class Vehicle
     [Uppercase]
     public required String Plate {get;set;}
     [Uppercase]
+    [Required]
+    [MaxLength(50)]
     public required String Renavam {get;set;}
     [Uppercase]
+    [MaxLength(50)]
     public required String Chassis {get;set;} 
     [Uppercase]
     public required String Mark {get;set;}

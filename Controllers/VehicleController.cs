@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Rumo.Data;
 using Rumo.Models;
 
@@ -58,7 +59,7 @@ namespace Rumo.Controllers
             }
 
             var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Plate == id);
+                .FirstOrDefaultAsync(m => m.Plate.Contains(id) || m.Renavam.Contains(id) || m.Chassis.Contains(id));
             if (vehicle == null)
             {
                 return NotFound();
@@ -79,12 +80,16 @@ namespace Rumo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Plate,Renavam,Chassis,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
-        {
-            bool existe = await _context.Vehicles.AnyAsync(v => v.Plate == vehicle.Plate);
-            if(!existe){
-                _context.Add(vehicle);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+        {   
+            if (!string.IsNullOrEmpty(vehicle.Plate) && !string.IsNullOrEmpty(vehicle.Chassis) && !string.IsNullOrEmpty(vehicle.Mark) && !string.IsNullOrEmpty(vehicle.Version)){
+                if(vehicle.DuoDate.Year > 1990){
+                    bool existe = await _context.Vehicles.AnyAsync(v => v.Plate.Contains(vehicle.Plate) || v.Chassis.Contains(vehicle.Chassis) || v.Renavam.Contains(vehicle.Renavam));
+                    if(!existe){
+                        _context.Add(vehicle);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
             return View(vehicle);
 

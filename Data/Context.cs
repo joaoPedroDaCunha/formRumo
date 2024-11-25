@@ -16,13 +16,17 @@ public class Context(DbContextOptions<Context> options) : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Vehicle>().HasIndex(p => p.Renavam).IsUnique(true);
+
+        modelBuilder.Entity<Vehicle>().HasIndex(p => p.Chassis).IsUnique(true);
+
         modelBuilder.Entity<Aet>().HasOne(a => a.Vehicle).WithMany(u => u.Aets).HasForeignKey(a => a.VehicleId);
+
+        modelBuilder.Entity<Aet>().HasKey(a => a.id);
 
         modelBuilder.Entity<Verser>().HasOne(a => a.Vehicle).WithMany(u => u.Versers).HasForeignKey(a => a.VehicleId);
 
         modelBuilder.Entity<Verser>().HasOne(a => a.Aet).WithMany(a => a.Versers).HasForeignKey(a => a.AetId);
-
-        modelBuilder.Entity<Aet>().HasKey(a => a.id);
 
         modelBuilder.Entity<Verser>().HasKey(a => a.id);
 
