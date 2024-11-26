@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,10 +23,29 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Vehicle/Index">Veiculo</a>
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Veiculos
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="nav-link text-dark dropdown-item" href="/Vehicle/Index/Ativo" >Ativos</a></li>
+                                    <li><a class="nav-link text-dark dropdown-item" href="/Vehicle/Index/Desativado" >Desativados</a></li>
+                                    <li><a class="nav-link text-dark dropdown-item" href="/Vehicle/Index/Vencidos" >Vencidos</a></li>
+                                </ul>
+                            </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Aet/Index">Aet</a>
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Aet
+                                </a>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <li><a class="nav-link text-dark dropdown-item" href="/Aet/Index" >Ativos</a></li>
+                                    <li><a class="nav-link text-dark dropdown-item" href="/Aet/Index" >Vencidos</a></li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>

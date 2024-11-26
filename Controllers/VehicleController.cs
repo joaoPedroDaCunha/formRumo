@@ -30,22 +30,19 @@ namespace Rumo.Controllers
         [HttpGet("Vehicle/Index/{month}")]
         public async Task<IActionResult> Index(string month)
         {
-            switch (month){
-                case "Julho" :
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync());
-                case "Agosto" :
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("3") || v.Plate.EndsWith("4"))).ToListAsync());
-                case "Setembro" :
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("5") || v.Plate.EndsWith("6"))|| v.Type.Contains("TRATOR") &&(v.Plate.EndsWith("1")||v.Plate.EndsWith("2"))).ToListAsync());
-                case "Outubro":
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))|| v.Type.Contains("TRATOR") &&(v.Plate.EndsWith("3")||v.Plate.EndsWith("4") || v.Plate.EndsWith("5"))).ToListAsync());
-                case "Novembro":
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("9") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("6") || v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))).ToListAsync());
-                case "Dezembro":
-                    return View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("0") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("9") || v.Plate.EndsWith("8"))).ToListAsync());
-                default :
-                    return RedirectToAction(nameof(Index));
-            }
+            return month switch
+            {
+                "Julho" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync()),
+                "Agosto" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("3") || v.Plate.EndsWith("4"))).ToListAsync()),
+                "Setembro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("5") || v.Plate.EndsWith("6")) || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync()),
+                "Outubro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("7") || v.Plate.EndsWith("8")) || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("3") || v.Plate.EndsWith("4") || v.Plate.EndsWith("5"))).ToListAsync()),
+                "Novembro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("9") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("6") || v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))).ToListAsync()),
+                "Dezembro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("0") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("9") || v.Plate.EndsWith("8"))).ToListAsync()),
+                "Ativo" =>View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Situation.Contains("Ativo")).ToListAsync()),
+                "Desativado" =>View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Situation.Contains("Desativado")).ToListAsync()),
+                "Vencidos" =>View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.DuoDate.ToDateTime(TimeOnly.MinValue) < DateTime.Now).ToListAsync()),
+                _ => RedirectToAction(nameof(Index)),
+            };
         }
 
         // GET: Vehicle/Details/5
