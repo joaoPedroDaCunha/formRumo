@@ -32,35 +32,24 @@ namespace Rumo.Controllers
         [Route("Aet/Index/{id}")]
         public async Task<IActionResult> Index(String id)
         {
-            switch (id)
+            return id switch
             {
-                case "Janeiro":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 1).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Fevereiro":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 2).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Março":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 3).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Abril":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 4).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Maio":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 5).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Junho":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 6).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Julho":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 7).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Agosto":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 8).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Setembro":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 9).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Outubro":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 10).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Novembro":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 11).OrderBy(a => a.VehicleId).ToListAsync());
-                case "Dezembro":
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Date.Month == 12).OrderBy(a => a.VehicleId).ToListAsync());
-                default:
-                    return View(await _context.Aets.Include(a => a.Vehicle).Where(a => a.Vehicle.Plate.Equals(id)).ToArrayAsync());
-            }
+                "Janeiro" => View(await _context.Aets.Where(a => a.Date.Month == 1).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Fevereiro" => View(await _context.Aets.Where(a => a.Date.Month == 2).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Março" => View(await _context.Aets.Where(a => a.Date.Month == 3).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Abril" => View(await _context.Aets.Where(a => a.Date.Month == 4).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Maio" => View(await _context.Aets.Where(a => a.Date.Month == 5).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Junho" => View(await _context.Aets.Where(a => a.Date.Month == 6).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Julho" => View(await _context.Aets.Where(a => a.Date.Month == 7).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Agosto" => View(await _context.Aets.Where(a => a.Date.Month == 8).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Setembro" => View(await _context.Aets.Where(a => a.Date.Month == 9).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Outubro" => View(await _context.Aets.Where(a => a.Date.Month == 10).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Novembro" => View(await _context.Aets.Where(a => a.Date.Month == 11).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Dezembro" => View(await _context.Aets.Where(a => a.Date.Month == 12).OrderBy(a => a.VehicleId).ToListAsync()),
+                "Ativos" => View(await _context.Aets.Where(a => a.Date.ToDateTime(TimeOnly.MinValue) > DateTime.Now).ToListAsync()),
+                "Vencidos" =>View(await _context.Aets.Where(a => a.Date.ToDateTime(TimeOnly.MinValue) < DateTime.Now).ToListAsync()),
+                _ => View(await _context.Aets.Where(a => a.Vehicle.Plate.Equals(id)).ToArrayAsync()),
+            };
         }
 
 
