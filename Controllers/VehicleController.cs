@@ -7,83 +7,49 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Rumo.Data;
+using Rumo.Data.Repository.VehicleRepository;
 using Rumo.Models;
 
 namespace Rumo.Controllers
 {
-    public class VehicleController : Controller
+    public class VehicleController(IVechicleRepository vechicleRepository) : Controller
     {
-        private readonly Context _context;
-
-        public VehicleController(Context context)
-        {
-            _context = context;
-        }
-
-        // GET: Vehicle
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vehicles.OrderBy(v => v.Plate).ToListAsync());
+            var vehicle = await vechicleRepository.GetAllAsync();
+            return View(vehicle);
         }
 
-        [HttpGet("Vehicle/Index/{month}")]
+        [HttpGet]
+        [Route("Vehicle/Index/{month}")]
         public async Task<IActionResult> Index(string month)
         {
-            return month switch
-            {
-                "Julho" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync()),
-                "Agosto" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("3") || v.Plate.EndsWith("4"))).ToListAsync()),
-                "Setembro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("5") || v.Plate.EndsWith("6")) || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("1") || v.Plate.EndsWith("2"))).ToListAsync()),
-                "Outubro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && (v.Plate.EndsWith("7") || v.Plate.EndsWith("8")) || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("3") || v.Plate.EndsWith("4") || v.Plate.EndsWith("5"))).ToListAsync()),
-                "Novembro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("9") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("6") || v.Plate.EndsWith("7") || v.Plate.EndsWith("8"))).ToListAsync()),
-                "Dezembro" => View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => (v.Type.Contains("REBOQUE") || v.Type.Contains("AUTOMOVEL")) && v.Plate.EndsWith("0") || v.Type.Contains("TRATOR") && (v.Plate.EndsWith("9") || v.Plate.EndsWith("8"))).ToListAsync()),
-                "Ativo" =>View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Situation.Contains("Ativo")).ToListAsync()),
-                "Desativado" =>View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.Situation.Contains("Desativado")).ToListAsync()),
-                "Vencidos" =>View(await _context.Vehicles.OrderBy(v => v.Plate).Where(v => v.DuoDate.ToDateTime(TimeOnly.MinValue) < DateTime.Now).ToListAsync()),
-                _ => RedirectToAction(nameof(Index)),
-            };
+            var vehicle = await vechicleRepository.Index(month);
+            return View(vehicle);
         }
 
-        // GET: Vehicle/Details/5
         [HttpGet]
         [Route("Vehicle/Details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Plate.Contains(id) || m.Renavam.Contains(id) || m.Chassis.Contains(id));
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
+            var vehicle = await vechicleRepository.GetById(id);
             return View(vehicle);
         }
 
-        // GET: Vehicle/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Vehicle/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Plate,Renavam,Chassis,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
         {   
             if (!string.IsNullOrEmpty(vehicle.Plate) && !string.IsNullOrEmpty(vehicle.Chassis) && !string.IsNullOrEmpty(vehicle.Mark) && !string.IsNullOrEmpty(vehicle.Version)){
                 if(vehicle.DuoDate.Year > 1990){
-                    bool existe = await _context.Vehicles.AnyAsync(v => v.Plate.Contains(vehicle.Plate) || v.Chassis.Contains(vehicle.Chassis) || v.Renavam.Contains(vehicle.Renavam));
-                    if(!existe){
-                        _context.Add(vehicle);
-                        await _context.SaveChangesAsync();
+                    if(!vechicleRepository.VehicleExists(vehicle)){
+                        await vechicleRepository.Create(vehicle);
                         return RedirectToAction(nameof(Index));
                     }
                 }
@@ -91,26 +57,13 @@ namespace Rumo.Controllers
             return View(vehicle);
 
         }
-        
-        // GET: Vehicle/Edit/5
+
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await _context.Vehicles.FindAsync(id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
+            var vehicle = await vechicleRepository.GetById(id);
             return View(vehicle);
         }
 
-        // POST: Vehicle/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Plate,Renavam,Chassis,Mark,Version,Type,DuoDate,Situation")] Vehicle vehicle)
@@ -120,67 +73,39 @@ namespace Rumo.Controllers
                 return NotFound();
             }
 
-            
-                try
+            try
+            {
+                await vechicleRepository.Edit(vehicle);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!vechicleRepository.VehicleExists(vehicle))
                 {
-                    _context.Update(vehicle);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    if (!VehicleExists(vehicle.Plate))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
-                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
 
         }
 
-        // GET: Vehicle/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await _context.Vehicles
-                .FirstOrDefaultAsync(m => m.Plate == id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
+            var vehicle = await vechicleRepository.GetById(id);
             return View(vehicle);
         }
 
-        // POST: Vehicle/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var vehicle = await _context.Vehicles.FindAsync(id);
-            var aet = await _context.Aets.Where(a => a.VehicleId.Equals(id)).ToListAsync();
-            if (vehicle != null)
-            {
-                _context.Vehicles.Remove(vehicle);
-                if(aet != null){
 
-                }
-            }
-
-            await _context.SaveChangesAsync();
+            await vechicleRepository.Delete(await vechicleRepository.GetById(id));
             return RedirectToAction(nameof(Index));
         }
 
-        private bool VehicleExists(string id)
-        {
-            return _context.Vehicles.Any(e => e.Plate == id);
-        }
     }
 }

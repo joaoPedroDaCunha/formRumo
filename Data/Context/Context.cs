@@ -3,11 +3,11 @@ using Rumo.Models;
 
 namespace Rumo.Data;
 
-public class Context(DbContextOptions<Context> options) : DbContext
+public class Context(DbContextOptions<Context> options) : DbContext(options)
 {
-    public DbSet<Vehicle> Vehicles {get;set;}
-    public DbSet<Aet> Aets {get;set;}
-    public DbSet<Verser> Versers {get;set;}
+    public required DbSet<Vehicle> Vehicles {get;set;}
+    public required DbSet<Aet> Aets {get;set;}
+    public required DbSet<Verser> Versers {get;set;}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

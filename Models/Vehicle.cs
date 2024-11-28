@@ -24,6 +24,6 @@ public class Vehicle
     public required String Type{get;set;}
     public DateOnly DuoDate {get;set;}
     public required String Situation{get;set;}
-    public ICollection<Aet> Aets {get;set;}
-    public ICollection<Verser> Versers {get;set;}
+    public ICollection<Aet>? Aets {get;set;}
+    public ICollection<Verser>? Versers {get;set;}
 }

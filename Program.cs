@@ -2,11 +2,14 @@ using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Rumo.Data;
+using Rumo.Data.Configure;
+using Rumo.Data.Repository.VehicleRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<Context>(o =>
 o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddConfigureData(builder.Configuration);
 
 builder.Services.AddMemoryCache();
 
