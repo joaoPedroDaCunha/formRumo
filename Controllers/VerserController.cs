@@ -52,6 +52,11 @@ namespace Rumo.Controllers
         [HttpGet("create/{id:Guid}")]
         public IActionResult Create(Guid? id)
         {
+             if (id == null)
+            {
+                return NotFound();
+            }
+
             Verser verser = new()
             {
                 AetId = (Guid)id
@@ -155,6 +160,10 @@ namespace Rumo.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var verser = await _context.Versers.FindAsync(id);
+             if (verser == null)
+            {
+                return NotFound();
+            }
             var aetid = verser.AetId;
             if (verser != null)
             {

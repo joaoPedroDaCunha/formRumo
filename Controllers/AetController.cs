@@ -120,8 +120,12 @@ namespace Rumo.Controllers
             {
                 return NotFound();
             }
-
-            await aetRepository.Delete(await aetRepository.GetById((Guid)id));
+            var aet = await aetRepository.GetById((Guid)id);
+             if (aet == null)
+            {
+                return NotFound();
+            }
+            await aetRepository.Delete(aet);
 
             return RedirectToAction(nameof(Index));
         }
