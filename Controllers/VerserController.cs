@@ -6,25 +6,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
 using Rumo.Data;
+using Rumo.Data.Repository.VerserReposiroey;
 using Rumo.Models;
 
 namespace Rumo.Controllers
 {
-    public class VerserController : Controller
+    public class VerserController(Context context,VerserRepository verserRepository ) : Controller
     {
-        private readonly Context _context;
-
-        public VerserController(Context context)
-        {
-            _context = context;
-        }
+        private readonly Context _context = context;
 
         // GET: Verser
         public async Task<IActionResult> Index()
         {
-            var context = _context.Versers.Include(v => v.Aet).Include(v => v.Vehicle);
-            return View(await context.ToListAsync());
+            var context = verserRepository.GetAllAsync();
+            return View(await context);
         }
 
         // GET: Verser/Details/5
@@ -34,16 +31,7 @@ namespace Rumo.Controllers
             {
                 return NotFound();
             }
-
-            var verser = await _context.Versers
-                .Include(v => v.Aet)
-                .Include(v => v.Vehicle)
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (verser == null)
-            {
-                return NotFound();
-            }
-
+            var verser = await verserRepository.GetVerserbyId((Guid)id);
             return View(verser);
         }
 
@@ -73,10 +61,9 @@ namespace Rumo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("id,AetId,VehicleId")] Verser verser)
         {
-                verser.id = Guid.NewGuid();
-                _context.Add(verser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details","Aet",new {id = verser.AetId});  
+            verser.id = Guid.NewGuid();
+            await verserRepository.Create(verser);
+            return RedirectToAction("Details","Aet",new {id = verser.AetId});  
         }
 
         // GET: Verser/Edit/5
@@ -86,12 +73,7 @@ namespace Rumo.Controllers
             {
                 return NotFound();
             }
-
-            var verser = await _context.Versers.FindAsync(id);
-            if (verser == null)
-            {
-                return NotFound();
-            }
+            var verser = await verserRepository.GetVerserbyId((Guid)id);
             ViewData["AetId"] = new SelectList(_context.Aets, "id", "id", verser.AetId);
             ViewData["VehicleId"] = new SelectList(_context.Vehicles, "Plate", "Plate", verser.VehicleId);
             return View(verser);
@@ -113,12 +95,11 @@ namespace Rumo.Controllers
             {
                 try
                 {
-                    _context.Update(verser);
-                    await _context.SaveChangesAsync();
+                    await verserRepository.update(verser);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!VerserExists(verser.id))
+                    if (!verserRepository.VerserExists(verser.id))
                     {
                         return NotFound();
                     }
@@ -142,10 +123,7 @@ namespace Rumo.Controllers
                 return NotFound();
             }
 
-            var verser = await _context.Versers
-                .Include(v => v.Aet)
-                .Include(v => v.Vehicle)
-                .FirstOrDefaultAsync(m => m.id == id);
+            var verser = await verserRepository.GetVerserbyId((Guid)id);
             if (verser == null)
             {
                 return NotFound();
@@ -159,24 +137,15 @@ namespace Rumo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var verser = await _context.Versers.FindAsync(id);
+            var verser = await verserRepository.GetVerserbyId((Guid)id);
              if (verser == null)
             {
                 return NotFound();
             }
             var aetid = verser.AetId;
-            if (verser != null)
-            {
-                _context.Versers.Remove(verser);
-            }
-
-            await _context.SaveChangesAsync();
+            await verserRepository.Delete(verser);
             return RedirectToAction("Details","Aet",new {id = aetid});
         }
 
-        private bool VerserExists(Guid id)
-        {
-            return _context.Versers.Any(e => e.id == id);
-        }
     }
 }
