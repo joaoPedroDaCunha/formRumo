@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Detalhes";
+    var aetslist = ViewData["Aet"] as List<Aet>;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -64,3 +65,46 @@
     <a asp-action="Edit" asp-route-id="@Model?.Plate"><button class="btn btn-secondary">Edit</button></a> |
     <a asp-action="Index"><button class="btn btn-secondary">Back</button></a>
 </div>
+
+@if(Model != null){
+    @if(Model.Type.Contains("TRATOR")){
+            <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(aetslist => aetslist.Plate)
+                </th>
+                <th>
+                    Sigla
+                </th>
+                <th>
+                    @Html.DisplayNameFor(aetslist => aetslist.DuoDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @if (aetslist != null) { 
+    @foreach (var item in aetslist) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sigla)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a style="text-decoration: none; color: inherit;" asp-controller="Aet" asp-action="Edit" asp-route-id="@item.id"><button class="btn btn-secondary">Edit</button></a> |
+                    <a style="text-decoration: none; color: inherit;" asp-controller="Aet" asp-action="Details" asp-route-id="@item.id"><button class="btn btn-secondary">Details</button></a> |
+                    <a style="text-decoration: none; color: inherit;" asp-controller="Aet" asp-action="Delete" asp-route-id="@item.id"><button class="btn btn-secondary">Delete</button></a>
+                </td>
+            </tr>
+        }
+    }
+        </tbody>
+    </table>
+    }
+}

@@ -9,6 +9,7 @@ public interface IVechicleRepository
     Task Create(Vehicle vehicle);
     Task Edit(Vehicle vehicle);
     Task<Vehicle> GetById(string id);
+    Task<List<Aet>> GetAetByVehicle(String id);
     Task Delete(Vehicle vehicle);
     bool VehicleExists(Vehicle id);
 }

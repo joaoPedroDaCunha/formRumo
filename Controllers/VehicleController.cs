@@ -34,6 +34,8 @@ namespace Rumo.Controllers
         public async Task<IActionResult> Details(string id)
         {
             var vehicle = await vechicleRepository.GetById(id);
+            var aet = await vechicleRepository.GetAetByVehicle(id);
+            ViewData["Aet"] = aet;
             return View(vehicle);
         }
 

@@ -56,4 +56,8 @@ public class VehicleRepository(Context context) : IVechicleRepository
         return context.Vehicles.Any(e => e.Plate.Contains(id.Plate) || e.Renavam.Contains(id.Renavam) || e.Chassis.Contains(id.Chassis));
     }
 
+    public async Task<List<Aet>> GetAetByVehicle(string id)
+    {
+        return await context.Aets.Where(a => a.VehicleId.Contains(id)).ToListAsync();
+    }
 }
