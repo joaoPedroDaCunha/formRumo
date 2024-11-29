@@ -13,7 +13,7 @@ using Rumo.Models;
 
 namespace Rumo.Controllers
 {
-    public class VerserController(Context context,VerserRepository verserRepository ) : Controller
+    public class VerserController(Context context,IVerserRepository verserRepository ) : Controller
     {
         private readonly Context _context = context;
 

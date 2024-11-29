@@ -18,7 +18,7 @@ public class VerserRepository(Context context) : IVerserRepository
 
     public async Task<List<Verser>> GetAllAsync()
     {
-        return await context.Versers.OrderBy(a => a.VehicleId).ToListAsync();
+        return await context.Versers.OrderBy(a => a.VehicleId).Include(a => a.Vehicle).Include(a => a.Aet).ToListAsync();
     }
 
     public async Task<Verser> GetVerserbyId(Guid id)
