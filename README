@@ -1,0 +1,10 @@
+# FORMERUMO
+### Descrição do Projeto
+Este projeto foi desenvolvido com o objetivo de permitir o cadastro e a visualização da situação dos veículos, bem como das informações relacionadas às suas licenças. A plataforma visa simplificar a análise e o acompanhamento dos dados dos veículos, proporcionando ao usuário uma forma prática e eficiente de acessar e monitorar o status das licenças e outros detalhes importantes
+
+### Principais Tecnologias Utilizadas
+- C#
+- ASP.NET
+- ENTITY.FRAMEWORK
+- MVC
+- POSTGRES
